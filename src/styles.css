@@ -1,0 +1,74 @@
+* {
+    box-sizing: border-box;
+  }
+  
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background-image: url("../media/background.jpeg");
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-areas: 
+      'content_upper content_upper content_upper content_upper content_upper ' 
+      'topnav topnav topnav topnav topnav' 
+      'content_lower content_lower content_lower content_lower content_lower '
+      'footer footer footer footer footer ';
+    /* grid-column-gap: 10px; - if you want gap between the columns */
+  } 
+  
+  .topnav {
+      grid-area: topnav;
+      border-radius: 10px;
+    overflow: hidden;
+    background-color: #0c0032a0;
+    margin: 10px;
+  }
+  
+  /* Style the topnav links */
+  .topnav a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change color on hover */
+  .topnav a:hover {
+    background-color: #3500d3;
+    color: black;
+  }
+
+  .content_upper {
+    grid-area: content_upper;
+    border-radius: 10px;
+    color: black;
+    padding: 20px;
+    margin: 10px;
+    
+    text-align: center;
+  }
+
+  .content_lower {
+    grid-area: content_lower;
+    border-radius: 10px;
+    background-color: #180061a0;
+    padding: 20px;
+    margin: 10px;
+  }
+  .footer {
+    grid-area: footer;
+    border-radius: 10px;
+    background-color: #190061a0;
+    text-align: center;
+  }
+
+  table, th, td {
+    border: 1px solid white;
+    border-collapse: collapse;
+  }

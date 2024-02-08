@@ -1,0 +1,7 @@
+- blokjes per show met stats over verkocht/vrije stoelen (grafiekjes?)
+- lijst met alle reserveringen + knop voor aanpassen
+- toewijzen stoelen per reserveringen
+-- max aantal stoelen kiezen == aantal kaartjes gereserveerd
+-- knop om te bevestigen
+-- stoeltoewijzing in db zetten met reserveringsnummer
+-- alleen reserveringen laten zien die nog geen stoelen hebben
