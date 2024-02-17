@@ -65,12 +65,53 @@ class admin{
             while($row = $result->fetch_assoc()) {
                 echo "<tr><td>".$row["voornaam"]."</td><td>" . $row["tussenvoegsel"]. "</td><td>" . $row["achternaam"]. "</td><td>" . $row["emailadres"]."</td>
                 <td> " . $row["telefoonnummer"]. " </td><td> " . $row["aantal_kaartjes"]. " </td><td> " . $row["show_nr"]. " </td><td>&euro; " . $row["totaal_prijs"]. 
-                "</td><td>" . $row["rolstoelplek"]. "</td><td> " . $row["opmerkingen"]. " </td><td> " . $row["status"]. " </td></tr>";
+                "</td><td>" . $row["rolstoelplek"]. "</td><td> " . $row["opmerkingen"]. " </td><td> " . $row["status"]. " </td>
+                <td><form name='change_reservation' method='post' action='#'><input type='hidden' id=id_number name=id_number value=".$row["id"]."><input type='submit' value='Aanpassen' name='change_reservation'></form></td></tr>";
             }
         } else {
             echo "0 results";
         }
         $conn->close();
+    }
+
+    function get_data($id_number){
+        $conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
+        $sql = "SELECT * FROM reservations WHERE id=$id_number";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        $conn->close();
+        return [$row["voornaam"], $row["tussenvoegsel"], $row["achternaam"], $row["emailadres"], $row["telefoonnummer"], $row["aantal_kaartjes"], $row["show_nr"], $row["totaal_prijs"], $row["rolstoelplek"], $row["opmerkingen"], $row["status"]];
+    }
+
+    function remove_data($id_number){
+        $conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
+        $sql = "DELETE FROM reservations WHERE id=$id_number";
+        if ($conn->query($sql) === TRUE) {
+            echo "Inschrijving gewist!";
+        } else {
+            echo "Error updating record: " . $conn->error;
+        }
+        $conn->close();
+    }
+    function change_data($reservation_id, $voornaam, $tussenvoegsel, $achternaam, $emailadres, $telefoonnummer, $rolstoelplek, $opmerkingen, $aantal_kaartjes, $show_nr, $totaal_prijs){
+        $conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
+        $sql = "UPDATE reservations SET voornaam='$voornaam',tussenvoegsel='$tussenvoegsel',achternaam='$achternaam',emailadres='$emailadres',telefoonnummer='$telefoonnummer',aantal_kaartjes=$aantal_kaartjes,show_nr=$show_nr,totaal_prijs=$totaal_prijs,rolstoelplek=$rolstoelplek,opmerkingen='$opmerkingen' WHERE id = $reservation_id";
+        if ($conn->query($sql) === TRUE) {
+            echo "Wijziging aangepast";
+        } else {
+            echo "Error updating record: " . $conn->error;
+        }
+        $conn->close();
+    }
+    function calculate_price($aantal_kaartjes, $show){
+        $conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
+        $sql = "SELECT * FROM shows WHERE id=$show";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        $show_prijs = $row["prijs"];
+        $totaal_prijs = $show_prijs * $aantal_kaartjes;
+        $conn->close();
+        return $totaal_prijs;
     }
 
     function print_html_show_table($show_nr){
